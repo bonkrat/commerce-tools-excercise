@@ -1,68 +1,79 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# commercetools Excercise
 
-## Available Scripts
+A prototype application for searching products in the commercetools GraphQL API.
 
-In the project directory, you can run:
+### Installing
 
-### `yarn start`
+`npm install`
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+The application uses:
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+- `create-react-app` for generating the initial code.
+- `apollo-client` for fetching and storing data.
+- `unstated` for sharing application state between components.
+- `tailwindcss` for utility CSS classes.
+- `jest` and `enzyme` for unit testing.
 
-### `yarn test`
+### Running the Dev Server
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+`npm run start`
 
-### `yarn build`
+Right now the authorization token is hardcoded. Let me know if you are getting failures, I can generate a new key, or you can run this command to get a new one to place in `client.js`. 😅
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```
+curl https://auth.us-central1.gcp.commercetools.com/oauth/token --basic --user "C00oOxN3OEqDTMUjL0DoCjly:KlC0LVHXN6r55dVo9IyVetiHikH9QoMg" -X POST -d "grant_type=client_credentials&scope=manage_project:interview"
+```
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+### Running Tests
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+`npm run test`
 
-### `yarn eject`
+Currently there are unit tests for all components, hooks, and pages, which run in `jest`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Challenges
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### TailwindCSS
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Starting with a library I had never used added a learning curve. Near the end I felt more comfortable, but there are still parts of the application that I do not think are using the utility classes correctly.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### commercetools GraphQL Search Predicates
 
-## Learn More
+Using the Query Predicates with a GraphQL query, specifically
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```
+products(where:"masterData(current(categories(name=\"Some Name\")))") {
+    // "Malformed parameter: where: The field 'name' does not exist."
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+I spent way too long trying to figure out how to filter and search the GraphQL API with the search predicate syntax, where sometimes it would work and sometimes it wouldn't. I created a component for filtering by category (`CategorySelect.js`), but didn't end up using it because I couldn't get the query mentioned above to work.
 
-### Code Splitting
+I was able to get searching by product name to work, but \*I\*\* was also not quite able to figure out how to do a fuzzy match with the GraphQL API. The search in the application is an exact match search.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+### Mocking Dependencies
 
-### Analyzing the Bundle Size
+There are a lot of unit tests, and mocking some of the dependencies ended up being trickier than I was hoping.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+## Proud 👍
 
-### Making a Progressive Web App
+- The application has a lot of unit test coverage, which took a bulk of time to write. I tried to make the unit tests as pure as possible, so they only use `shallow` and mock as much as possible. I am particularly proud of the unit tests in `SearchProductsInput.test.js`, where `react` is partially mocked and `useState` is overridden.
+- This was one of the first times I've created custom React hooks that went into use.
+- Finally got to try out the [existential operator](https://github.com/tc39/proposal-optional-chaining)!
+- This was also the first time checking out [tailwind-css](https://tailwindcss.com). I ended up really liking its simplicty and how quickly you can prototype with it.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+## Not Proud 👎
 
-### Advanced Configuration
+- Some of the components could be isolated better.
+- Searching is exact search only.
+- The images for product pages jumps in instead of loading gracefully.
+- Tailwind classes feel sloppy and could probably be managed better as components or some kind of provider.
+- Handling dates with `moment` is pretty sloppy.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+## Tradeoffs
 
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+- Using a hardcoded authorization token. And the `.env` file.
+- No code splitting. I wanted to try out React Suspense and `React.lazy`.
+- Integration and End-to-end tests.
+- Wanted to try out the React Context API without any extra dependencies, but ended up pulling in `unstated` to save some time.
+- Paging is pretty basic, and there's an obvious bug that needs to be fixed.
+- I didn't style any error states.
+- The UX could use love.
