@@ -1,5 +1,7 @@
 # commercetools Excercise
 
+![Node.js CI](https://github.com/rjernigan/commerce-tools-excercise/workflows/Node.js%20CI/badge.svg?branch=master)
+
 A prototype application for searching products in the commercetools GraphQL API.
 
 ### Installing
@@ -59,6 +61,7 @@ There are a lot of unit tests, and mocking some of the dependencies ended up bei
 - This was one of the first times I've created custom React hooks that went into use.
 - Finally got to try out the [existential operator](https://github.com/tc39/proposal-optional-chaining)!
 - This was also the first time checking out [tailwind-css](https://tailwindcss.com). I ended up really liking its simplicty and how quickly you can prototype with it.
+- Setting up GitHub actions was fun!
 
 ## Not Proud 👎
 
