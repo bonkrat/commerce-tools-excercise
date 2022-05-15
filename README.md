@@ -1,4 +1,4 @@
-Interview project - I don't think they ever looked at it. If you're interviewing for commercetools... just spend your time elsewere.
+Interview project - I don't think they ever looked at it. If you're interviewing for commercetools... just spend your time elsewere. I tried way too hard on this.
 
 
 # commercetools Excercise
