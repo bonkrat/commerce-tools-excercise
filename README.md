@@ -1,3 +1,6 @@
+Interview project - I don't think they ever looked at it.
+
+
 # commercetools Excercise
 
 ![Node.js CI](https://github.com/rjernigan/commerce-tools-excercise/workflows/Node.js%20CI/badge.svg?branch=master)
